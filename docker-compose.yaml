@@ -1,0 +1,24 @@
+# this file is used to let you preview the workshop content on your local machine
+version: "3.5"
+
+name: antora-ui
+
+services:
+
+  antora:
+    container_name: antora-ui
+    image: antora-ui
+    build:
+      context: ./antora-ui-image
+    command:
+    - /bin/sh
+    - "-c"
+    - |
+      if [ `ls ./node_modules 2>/dev/null | wc -l` -lt 1 ]; then
+        npm install
+      fi
+      exec gulp preview
+    volumes:
+    - .:/antora
+    ports:
+    - 5252:5252
